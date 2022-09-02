@@ -144,8 +144,8 @@ public:
     }
     									// 除第一个关键字外。其它关键字最后要留白一行
 private:
-	char *_str;
-	static char _S_EMPTY_C_STR[1]; // = "" 
+    char *_str;
+    static char _S_EMPTY_C_STR[1]; // = "" 
     									// 除第一个关键字外。其它关键字最后要留白一行
 };
 ```
@@ -238,7 +238,7 @@ private:
 class File { 
 public:
     explicit File(const char *file_name) : _fp(NULL) {
-		... // open file, and set _fp 
+        ... // open file, and set _fp 
     }
     ~File() { fclose(_fp); } 
 
@@ -1059,7 +1059,7 @@ class Container {
 
 ```c++
 enum Color {
-	RED,
+    RED,
     BLUE,
     GREEN,
     COLOR_COUNT
