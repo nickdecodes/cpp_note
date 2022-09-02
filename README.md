@@ -133,15 +133,15 @@ private:
 ```c++
 class String { 
 public:
-	String() : _str(_S_EMPTY_C_STR) {} // 默认构造函数 使用_S_EMPTY_C_STR作占位符
-	~String() {
-		if (_str != _S_EMPTY_C_STR) {
-			free(_str); 
+    String() : _str(_S_EMPTY_C_STR) {} // 默认构造函数 使用_S_EMPTY_C_STR作占位符
+    ~String() {
+        if (_str != _S_EMPTY_C_STR) {
+            free(_str); 
         }
-	}
-	const char *c_str() const { 
+    }
+    const char *c_str() const { 
         return _str;
-	}
+    }
     									// 除第一个关键字外。其它关键字最后要留白一行
 private:
 	char *_str;
@@ -222,12 +222,12 @@ private：
 ```c++
 class Point { 
 public:
-	Point(int x, int y) : _x(x), _y(y) {} 
+    Point(int x, int y) : _x(x), _y(y) {} 
     Point(const Point &other) : _x(other._x), _y(other._y) {} // 拷贝构造函数
     
 private: 
     int _x;
-	int _y; 
+    int _y; 
     
 };
 ```
@@ -237,14 +237,14 @@ private:
 ```c++
 class File { 
 public:
-	explicit File(const char *file_name) : _fp(NULL) {
+    explicit File(const char *file_name) : _fp(NULL) {
 		... // open file, and set _fp 
     }
-	~File() { fclose(_fp); } 
+    ~File() { fclose(_fp); } 
 
 private:
-	FILE *_fp;
-	DISALLOW_COPY_AND_ASSIGN(File); 
+    FILE *_fp;
+    DISALLOW_COPY_AND_ASSIGN(File); 
 
 };
 ```
@@ -273,17 +273,17 @@ private:
 ```c++
 class Point { 
 public:
-	Point(int x, int y) : _x(x), _y(y) {} 
+    Point(int x, int y) : _x(x), _y(y) {} 
     Point(const Point &other) : _x(other._x), _y(other._y) {} 
     Point &operator=(const Point &other) { // 复制赋值运算符
-		_x = other._x; 
+        _x = other._x; 
         _y = other._y; 
         return *this;
-	} 
+    } 
     
 private:
-	int _x;
-	int _y; 
+    int _x;
+    int _y; 
     
 }；
 ```
@@ -293,11 +293,11 @@ private:
 ```c++
 class Person { 
 public:
-	explicit Person(const std::string &name) : _name(name) {} 
+    explicit Person(const std::string &name) : _name(name) {} 
     
 private:
-	std::string _name;
-	DISALLOW_COPY_AND_ASSIGN(Person); 
+    std::string _name;
+    DISALLOW_COPY_AND_ASSIGN(Person); 
 
 };
 ```
@@ -329,11 +329,11 @@ private:
 ```c++
 class Connection { 
 public:
-	void close(); // 关闭数据库连接，具有“无抛掷保证”（定义参见“编程实践->异常安全性“一节）
+    void close(); // 关闭数据库连接，具有“无抛掷保证”（定义参见“编程实践->异常安全性“一节）
     ~Connection() {
-		if (_connection_state == CONNECTED) { 
+        if (_connection_state == CONNECTED) { 
             close(); // 注意：不要让异常离开析构函数，如果调用了会抛出异常的函数，一定要接住异常。
-		} 
+        } 
     }    
 };
 ```
@@ -359,29 +359,29 @@ public:
 ```c++
 class Chinese { 
 public:
-	explicit Chinese(const std::string &name) : _name(name) {}
+    explicit Chinese(const std::string &name) : _name(name) {}
 
     // 可以被继承的类析构函数必须是虚的
-	virtual ~Chinese() {}
+    virtual ~Chinese() {}
 
     // 这个函数不是虚函数，不可被覆盖
-	void say(const std::string &word);
+    void say(const std::string &word);
 
     // 这个函数可以被覆盖
-	virtual void greet() { say("吃了吗"); }
+    virtual void greet() { say("吃了吗"); }
                                
 private:
-	std::string _name;
+    std::string _name;
 };
                                
 // 一个广东人“是一个”中国人
 class Cantonese : public Chinese { 
 public:
-	explicit Cantonese(const std::string &name) : Chinese(name) {} 			
+    explicit Cantonese(const std::string &name) : Chinese(name) {} 			
     virtual ~Cantonese() {}
 	
     // 广东人问候的方式不一样，覆盖本方法
-	virtual void greet() { say("食咗未啊?"); } 
+    virtual void greet() { say("食咗未啊?"); } 
 
 };
 ```
@@ -430,20 +430,20 @@ public:
 // 以一致的顺序排序，并且将读者最可能关心的信息排在前面
 class ResourcePool { 
 public:
-	// 类型定义
-	typedef void(*DestructorFunc)(void *p_object); // 清理函数类型定义
+    // 类型定义
+    typedef void(*DestructorFunc)(void *p_object); // 清理函数类型定义
     // 构造函数、析构函数声明/定义
-	ResourcePool();
-	~ResourcePool() {
-		// 如果函数很短，也可以在声明同时给出定义（自动inline）
-		reset(); 
+    ResourcePool();
+    ~ResourcePool() {
+        // 如果函数很短，也可以在声明同时给出定义（自动inline）
+        reset(); 
     }
  	
     // 公有方法定义
     void attach(void *p_object, DestructorFunc destructor); // 托管C风格资源如内存buffer
 	... // attach系列有多个类似的方法
         
-	template <typename T> 
+    template <typename T> 
     T &create(); // 构造出托管对象
 	...  		 // create系列有多个类似的方法，排在一起
 	...			 // 再排列其它次要的方法
@@ -451,16 +451,16 @@ public:
 private:
     // private成员不是接口的一部分，用户一般不关心，放在后面
     // 类型定义
-	struct ObjectInfo; // 各种内部使用的类型定义
-	...
-	// 方法定义
-	void push_info(); 
-	void pop_info();
-	...
-	// 数据成员定义
-	ObjectInfo *_p_object_info_list;
-	...
-	DISALLOW_COPY_AND_ASSIGN(ResourcePool); // 这个放在最后
+    struct ObjectInfo; // 各种内部使用的类型定义
+    ...
+    // 方法定义
+    void push_info(); 
+    void pop_info();
+    ...
+    // 数据成员定义
+    ObjectInfo *_p_object_info_list;
+    ...
+    DISALLOW_COPY_AND_ASSIGN(ResourcePool); // 这个放在最后
     
 };                  
              
@@ -485,8 +485,8 @@ private:
 class DictIterator; 
 class Dict { 
 public:
-	typedef DictIterator iterator;
-	friend class DictIterator; // 容器类与迭代器天生是紧密耦合的
+    typedef DictIterator iterator;
+    friend class DictIterator; // 容器类与迭代器天生是紧密耦合的
     friend bool operator==(const Dict&, const Dict&); // 对象和相关的重载运算符有可能紧密耦合
     
 private: 
@@ -580,7 +580,7 @@ using namespace std; // 禁止在头文件中使用using namespace
 
 class A {
 public:
-	string name() const;
+    string name() const;
     
 };
 
@@ -591,9 +591,9 @@ public:
 using namespace bsl; // 禁止在.cpp文件中使用using namespace
 
 int main() {
-	string str; // 编译器无法区分这里是使用bsl::string还是std::string
-	A a;
-	cout << a.name() << endl; // 用户不知道std名空间已经被打开了
+    string str; // 编译器无法区分这里是使用bsl::string还是std::string
+    A a;
+    cout << a.name() << endl; // 用户不知道std名空间已经被打开了
     return 0;
 }
 ```
@@ -606,7 +606,7 @@ int main() {
 
 class A {
 public:
-	std::string name() const; // 使用std::string替换string,显式指明所属空间
+    std::string name() const; // 使用std::string替换string,显式指明所属空间
 
 // a.cpp
 #include "bs1/bs1_string.h"
@@ -617,9 +617,9 @@ using std::cout;
 using std::endl;
 
 int main() {
-	bsl::string str; // 明确类型来源
-	A a;
-	cout << a.name()<< endl; 
+    bsl::string str; // 明确类型来源
+    A a;
+    cout << a.name()<< endl; 
     return 0;
 }
 ```
@@ -645,21 +645,21 @@ int main() {
 ```c++
 class Person {
 public:
-	std::string get_name() const { // 注意在类里边定义的函数会自动内联
-		return _name;
+    std::string get_name() const { // 注意在类里边定义的函数会自动内联
+        return _name;
     }
-	int get_age() const {
+    int get_age() const {
         return _age;
     }
     
 private:
-	std::string _name;
-	int _age;
+    std::string _name;
+    int _age;
 
 };
 
 inline void greet(const Person &person) { // 通过inline关键字来内联函数
-	std::cout << "Hello," << person.get_name() << "!" << std::endl;
+    std::cout << "Hello," << person.get_name() << "!" << std::endl;
 }
 ```
 
@@ -679,11 +679,10 @@ inline void greet(const Person &person) { // 通过inline关键字来内联函�
 ```c++
 class MyContainer {
 public:
-	class iterator {
-	public:
-		iterator &operator++() {
-        	...
-			return *this;
+    class iterator {
+        public:iterator &operator++() {
+            ...
+            return *this;
         }
     };
 };
@@ -751,7 +750,7 @@ public:
 ```c++
 
 void foo(const void *network_buf) {
-	const MyBuf *buf = static_cast<const MyBuf*>(network_buf); // 无类型数据转换为有类型，是相兰
+    const MyBuf *buf = static_cast<const MyBuf*>(network_buf); // 无类型数据转换为有类型，是相兰
 }
 ```
 
@@ -764,7 +763,7 @@ void old_copy(void *dest, void *src, size_t n);
 
 // 重新封装一个函数
 void new_copy(void *dest, const void *src, size_t n) {
-	old_copy(dest, const_cast<void *>(src), n); // 把有const保护的强制转换为没有const保护的，
+    old_copy(dest, const_cast<void *>(src), n); // 把有const保护的强制转换为没有const保护的，
 }
 ```
 
@@ -877,12 +876,12 @@ char ch = '\0';
 int g_my_id;
 
 void func() {
-	size_t size_of_my_id = sizeof(g_my_id); // OK
+    size_t size_of_my_id = sizeof(g_my_id); // OK
 }
 
 int g_my_id;
 void func() {
-	size_t size_of_my_id = sizeof(int); // NO! g_my_id有可能改为1ong long或者size_t!
+    size_t size_of_my_id = sizeof(int); // NO! g_my_id有可能改为1ong long或者size_t!
 }
 ```
 
@@ -905,9 +904,9 @@ YES:
 
 class MyContainer {
 public:
-	typedef char value_type; // type tag
-	void my_method() {
-		typedef std::vector<int>::iterator iterator_type; //在函数作用域里把长类型名缩短
+    typedef char value_type; // type tag
+    void my_method() {
+        typedef std::vector<int>::iterator iterator_type; //在函数作用域里把长类型名缩短
         ...
     }
 };
@@ -959,12 +958,12 @@ typedef tagMyStruct {
 
 ```c++
 inline int abs(int i) {
-	return (i >= 0 ? i : -i);
+    return (i >= 0 ? i : -i);
 }
 // 或者
 template <typename T>
 inline T abs( T value) {
-	return (value >= 0 ? value :-value );
+    return (value >= 0 ? value :-value );
 }
 ```
 
@@ -972,10 +971,10 @@ inline T abs( T value) {
 
 ```c++
 enum Color {
-	RED,
-	BLUE,
-	GREEN,
-	COLOR_COUNT
+    RED,
+    BLUE,
+    GREEN,
+    COLOR_COUNT
 };
 ```
 
@@ -1002,7 +1001,7 @@ const size_t BUFFER_SIZE = 1048576;
 ```c++
 class Iterator; // 前向声明
 class Container {
-	Iterator *begin();
+    Iterator *begin();
 };
 ```
 
@@ -1059,11 +1058,11 @@ class Container {
 使用枚举做常量定义
 
 ```c++
-enum Color }
+enum Color {
 	RED,
-	BLUE,
-	GREEN,
-	COLOR_COUNT
+    BLUE,
+    GREEN,
+    COLOR_COUNT
 };
 ```
 
@@ -1096,7 +1095,7 @@ const size_t BUFFER_SIZE = 1048576;
 ```c++
 class MyClass {
 public:
-	void my_const_method(const OtherClass& arg) const;
+    void my_const_method(const OtherClass& arg) const;
 };
 
 const MyClass my_obj; // const 对象
@@ -1283,10 +1282,10 @@ const MyClass* const p2 = &my_obj; // 指向常量的指针常量
 ／／ mylib/AwesomeClass.h
 namespace mylib {
 class AwesomeClass {
-	void foo() { // 内联函数
+    void foo() { // 内联函数
         ...
     }
-	void bar();
+    void bar();
 }; // MyClass
     
 } // namespace mylib
@@ -1294,9 +1293,9 @@ class AwesomeClass {
 // mylib/AwesomeClass.cpp
 namespace mylib {
 void AwesomeClass::bar() {
-	while (...) {
-		if (...) {
-			...
+    while (...) {
+        if (...) {
+            ...
         } else {
             ...
         }
@@ -1361,14 +1360,14 @@ class IVar {
 ```c++
 class MyClass {
 public:
-	void foo();
+    void foo();
     
 protected:
-	void bar();
+    void bar();
     
 private:
-	void meow();
-	int _haha;
+    void meow();
+    int _haha;
     
 };
 ```
@@ -1392,9 +1391,9 @@ MyClass::MyClass(int var) : _some_var(var), _some_other_var(var + 1) {}
 // 如果一行放不下，至少缩进8个空格，把冒号放在第一行最后
 // the first initializer line:
 MyClass::MyClass(int var) :
-		＿some_var(var), // 8 space indent
-		some_other_var(var + 1) { // lined up
-	do_something();
+＿some_var(var), // 8 space indent
+some_other_var(var + 1) { // lined up
+    do_something();
     ...
 }
 ```
@@ -1410,8 +1409,8 @@ MyClass::MyClass(int var) :
 ```c++
 void foo();
 void this_is_a_very_long_function_name(
-		VeryLongLongDogType *p_my_dog,
-		const std::map<std::string, int> &a_wierd_dictionary);
+    VeryLongLongDogType *p_my_dog,
+    const std::map<std::string, int> &a_wierd_dictionary);
 ```
 
 
@@ -1425,10 +1424,10 @@ void this_is_a_very_long_function_name(
 ```c++
 grey_wolf.eat(white_sheep);
 hungry_lion.eat(
-		big_grey_wolf,
-		little white_sheep,
-		quick_brown_fox,
-		lazy_dog);
+    big_grey_wolf,
+    little white_sheep,
+    quick_brown_fox,
+    lazy_dog);
 ```
 
 
@@ -1450,17 +1449,17 @@ hungry_lion.eat(
 
 ```c++
 if (you.come_from(EARTH)) {
-	return "hello"; // 单语句也要用｛｝括起来
+    return "hello"; // 单语句也要用｛｝括起来
 } else if (you.come_from(MARS)) {
-	return "＄％＄8~1@#%i"; // 火星文
+    return "＄％＄8~1@#%i"; // 火星文
 } else {				   // 虽然不大可能，但假如用户在骗我们呢？
-	throw YouCheatMeException() << BSL_EARG << "your name:" << you.name(); // 留下案底了
+    throw YouCheatMeException() << BSL_EARG << "your name:" << you.name(); // 留下案底了
 }
 
 // Demo 条件表达式换行
 if (you.com_from(EARTH)
-		|| you.com_from(MARS)
-		|| you.com_from(VENUS)) {
+    	|| you.com_from(MARS)
+    	|| you.com_from(VENUS)) {
 	return "you come from solar system";
 }
 ```
@@ -1487,11 +1486,11 @@ if (you.com_from(EARTH)
 switch (cur_char) {
 case '\"':
 case '\'': {
-	return "it's a string!";
+    return "it's a string!";
 }
 default:
-	printf("not found yet");
-	break;
+    printf("not found yet");
+    break;
 }
 ```
 
@@ -1500,9 +1499,9 @@ default:
 ```c++
 switch (cur_char) {
 case '\"':
-	printf(“wow!”); // 没有break或return
+    printf(“wow!”); // 没有break或return
 case '\'':
-	return “it's a string!”；
+    return “it's a string!”；
 } // 没有default
 ```
 
@@ -1525,7 +1524,7 @@ case '\'':
 
 ```c++
 while (iter.next()) {
-	// pass
+    // pass
 }
 ```
 
@@ -1533,7 +1532,7 @@ while (iter.next()) {
 
 ```c++
 for (size_t i = 0; i < N; ++i) {
-	sum += arr[i];
+    sum += arr[i];
 }
 ```
 
@@ -1639,9 +1638,9 @@ xx_comparator( a, b ); xx_map[ "key" ]; // 错误，圆括号运算符和方括�
 ```c++
 UB_LOG WARNING(
     "An exception[%s] was thrown from[%s:%d:%s]" // 被截断的格式化字符串之间不能有＇，＇号！
-	"with a message[%s]! stack_trace:%s%s",
-	e.name(), e.file(), int(e.line()), e.function(), // 推荐的做法：格式化字符串与
-	e.what(), e.get_line_delimiter(), e.stack()
+    "with a message[%s]! stack_trace:%s%s",
+    e.name(), e.file(), int(e.line()), e.function(), // 推荐的做法：格式化字符串与
+    e.what(), e.get_line_delimiter(), e.stack()
 );
 ```
 
@@ -1719,13 +1718,13 @@ void foo(const InClass &input1, OutClass *output1);
 
 // 多个输入输出参数
 void foo(const InClass& input1,    // 输入使用const引用
-		int input2,                // 输入使用POD类型传值
-		OutClass *outpu1);         // 使用指针传出对象
+         int input2,                // 输入使用POD类型传值
+         OutClass *outpu1);         // 使用指针传出对象
 
 // 如果存在输入输出参数，输入输出参数放在输入参数后，输出参数前
 void foo(const InClass &input1,
-		int* inout,       // 输入输出参数
-		OutClass *output1);
+         int* inout,       // 输入输出参数
+         OutClass *output1);
 ```
 
 禁止未命名参数：
@@ -1734,13 +1733,13 @@ void foo(const InClass &input1,
 // Always have named parameters in interfaces.
 class Shape {
 public:
-	virtual void rotate(double radians) = 0;
+    virtual void rotate(double radians) = 0;
 };
 
 //  Always have named parameters in the declaration.
 class Circle : public Shape {
 public:
-	virtual void rotate(double radians);
+    virtual void rotate(double radians);
 };
 
 // Comment out unused named parameters in definitions.
@@ -1864,13 +1863,13 @@ namesapce test {
 ```c++
 class Person {
 public:
-	...
-	const IdCard &id_card() const{ return_id_card; } // getter
-	IdCard *mutable_id_card(){ return &_id_card; }
-	void set_id_card(const IdCard &id_card){ _id_card = id_card; } // setter
+    ...
+    const IdCard &id_card() const{ return_id_card; } // getter
+    IdCard *mutable_id_card(){ return &_id_card; }
+    void set_id_card(const IdCard &id_card){ _id_card = id_card; } // setter
     
 private:
- 	IdCard _id_card;
+    IdCard _id_card;
     
 };
 
@@ -1897,15 +1896,15 @@ void myFunction() {
 
 ```c++
 enum Color {
-	RED,
-	BLUE,
-	GREEN,
-	COLOR_COUNT
+    RED,
+    BLUE,
+    GREEN,
+    COLOR_COUNT
 };
 
 struct Point {
-	int x;
-	int y;
+    int x;
+    int y;
 };
 
 class MyClass {...
@@ -2118,22 +2117,22 @@ static int s_int;
 ```c++
 class FooEnvironment:public testing::Environment {
 public:
-	virtual void SetUp() {
-		std::cout << "Foo FooEnvironment SetUP" << std::endl;
+    virtual void SetUp() {
+        std::cout << "Foo FooEnvironment SetUP" << std::endl;
     }
-	virtual void TearDown() {
-		std::cout << "Foo FooEnvironment TearDown" << std::endl;
+    virtual void TearDown() {
+        std::cout << "Foo FooEnvironment TearDown" << std::endl;
     }
 };
 
 Example:
 template
-class FooTest : public testing::Test{
- public:
+class FooTest : public testing::Test {
+public:
     ...
-	typedef std::list List;
-	static T shared_;
-	T value_;
+    typedef std::list List;
+    static T shared_;
+    T value_;
 };
 ```
 
@@ -2184,9 +2183,9 @@ Windows下写C++代码请遵循本节的规范要求。对于本节没有要求�
 ```c++
 if (i ==j) 
 {
-	// 在函数体的开始、类的定义、结构的定义、枚举的定义
-	// 以及i、for、do、while、switch、case语句中的程序都要采用如上的缩进方式。
-	i++;
+    // 在函数体的开始、类的定义、结构的定义、枚举的定义
+    // 以及i、for、do、while、switch、case语句中的程序都要采用如上的缩进方式。
+    i++;
 }
 ```
 
